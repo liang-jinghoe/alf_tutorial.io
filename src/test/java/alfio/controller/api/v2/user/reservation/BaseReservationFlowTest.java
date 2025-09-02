@@ -1346,7 +1346,21 @@ public abstract class BaseReservationFlowTest extends BaseIntegrationTest {
                     MockHttpServletResponse response = new MockHttpServletResponse();
                     eventApiController.downloadSponsorScanExport(context.event.getShortName(), "csv", response, principal);
                     response.getContentAsString();
-                    var schema = CsvSchema.builder().setUseHeader(true).setQuoteChar('"').build();
+                    var schema = CsvSchema.builder()
+                        .addColumn("Username/Api Key")
+                        .addColumn("Description")
+                        .addColumn("Timestamp")
+                        .addColumn("Full name")
+                        .addColumn("Email")
+                        .addColumn("field1")
+                        .addColumn("field2")
+                        .addColumn("field3")
+                        .addColumn("Sponsor notes")
+                        .addColumn("Lead Status")
+                        .addColumn("Operator")
+                        .setUseHeader(true)
+                        .setQuoteChar('"')
+                        .build();
                     var mapper = new CsvMapper();
                     record SponsorScanRecord(
                         @JsonProperty("Username/Api Key") String username,
