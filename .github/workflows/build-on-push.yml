@@ -108,7 +108,7 @@ jobs:
                     context: ./dockerize
                     tags: |
                         ghcr.io/liang-jinghoe/alf_scc.io/prod:${{github.ref_name}}
-                        alfio/alf.io:${{github.ref_name}}
-                        alfio/alf.io:latest
+                        liang-jinghoe/alf_scc.io:${{github.ref_name}}
+                        liang-jinghoe/alf_scc.io:latest
                     platforms: linux/amd64,linux/arm64
                     push: true
