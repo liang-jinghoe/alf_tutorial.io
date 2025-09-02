@@ -73,7 +73,7 @@ jobs:
                 with:
                     context: ./dockerize
                     tags: |
-                        ghcr.io/alfio-event/alf.io/dev-${{ env.GITHUB_REF_SLUG }}:latest
+                        ghcr.io/liang-jinghoe/alf_scc.io/dev-${{ env.GITHUB_REF_SLUG }}:latest
                     platforms: linux/amd64,linux/arm64
                     push: true
     push_image_prod:
@@ -107,7 +107,7 @@ jobs:
                 with:
                     context: ./dockerize
                     tags: |
-                        ghcr.io/alfio-event/alf.io/prod:${{github.ref_name}}
+                        ghcr.io/liang-jinghoe/alf_scc.io/prod:${{github.ref_name}}
                         alfio/alf.io:${{github.ref_name}}
                         alfio/alf.io:latest
                     platforms: linux/amd64,linux/arm64
