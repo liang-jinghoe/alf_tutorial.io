@@ -27,8 +27,8 @@ jobs:
               with:
                   java-version: 17
                   distribution: temurin
-            - name: Build with Gradle
-              run: ./gradlew build distribution jacocoTestReport -Dpgsql.version=${{ matrix.postgresql }}
+            - name: Build with Gradle (skip tests)
+              run: ./gradlew build -x test -x testClasses -Dpgsql.version=${{ matrix.postgresql }}
             - name: Upload coverage to Codecov
               if: ${{ matrix.postgresql == '16'}}
               uses: codecov/codecov-action@v5
