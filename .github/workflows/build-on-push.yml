@@ -40,7 +40,7 @@ jobs:
               with:
                   token: ${{ secrets.CODECOV_TOKEN }}
             - name: 'Upload Build'
-              if: ${{ github.repository == 'alfio-event/alf.io' && matrix.postgresql == '10'}}
+              if: ${{ github.repository == 'liang-jinghoe/alf_scc.io' && matrix.postgresql == '10'}}
               uses: actions/upload-artifact@v4
               with:
                   name: dist
@@ -53,7 +53,7 @@ jobs:
         name: Push dev image
         steps:
             - name: Download artifacts
-              uses: actions/upload-artifact@v4
+              uses: actions/download-artifact@v4
               with:
                   name: dist
             -   name: Set up QEMU
@@ -83,7 +83,7 @@ jobs:
         name: Push PROD image
         steps:
             -   name: Download artifacts
-                uses: actions/upload-artifact@v4
+                uses: actions/download-artifact@v4
                 with:
                     name: dist
             -   name: Set up QEMU
