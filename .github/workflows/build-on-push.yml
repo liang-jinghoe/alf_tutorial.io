@@ -111,3 +111,33 @@ jobs:
                         ghcr.io/liang-jinghoe/alf_scc.io:${{ github.ref_name }}
                     platforms: linux/amd64,linux/arm64
                     push: true
+    deploy:
+        runs-on: ubuntu-latest
+        if: ${{ github.repository == 'liang-jinghoe/alf_scc.io' }}
+        needs: push_image_prod
+        name: Deploy with Docker Compose
+        steps:
+        -   name: Checkout repo
+            uses: actions/checkout@v4
+
+        -   name: Login to Container Registry (GitHub)
+            uses: docker/login-action@v2
+            with:
+                registry: ghcr.io
+                username: ${{ secrets.CR_USER }}
+                password: ${{ secrets.CR_PAT }}
+
+        -   name: Login to Container Registry (Docker)
+            uses: docker/login-action@v2
+            with:
+                registry: docker.io
+                username: ${{ secrets.DOCKER_USERNAME }}
+                password: ${{ secrets.DOCKER_PASSWORD }}
+
+        -   name: Deploy containers
+            run: |
+                docker-compose -f docker-compose.yml pull
+                docker-compose -f docker-compose.yml up -d
+
+        -   name: Show container logs (app)
+            run: docker logs --tail=100 alfio-app
