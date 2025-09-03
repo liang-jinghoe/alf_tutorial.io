@@ -23,7 +23,7 @@ services:
 # If you want to try out Alf.io, you can uncomment the following service: #
 ###########################################################################
     alfio:
-       image: ghcr.io/liang-jinghoe/alf_scc.io/prod:latest
+       image: ghcr.io/liang-jinghoe/alf_scc.io:latest
        container_name: alfsccio-app
        env_file:
            - .env
