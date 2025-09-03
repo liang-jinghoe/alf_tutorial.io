@@ -140,4 +140,4 @@ jobs:
                 docker compose -f docker-compose.yml up -d
 
         -   name: Show container logs (app)
-            run: docker logs --tail=100 alf_sccio-app
+            run: docker logs --tail=100 alfsccio-app
