@@ -40,7 +40,7 @@ jobs:
               with:
                   token: ${{ secrets.CODECOV_TOKEN }}
             - name: 'Upload Build'
-              if: ${{ github.repository == 'liang-jinghoe/alf_scc.io' && matrix.postgresql == '10'}}
+              if: ${{ github.repository == 'liang-jinghoe/alf_tutorial.io' && matrix.postgresql == '10'}}
               uses: actions/upload-artifact@v4
               with:
                   name: dist
@@ -48,7 +48,7 @@ jobs:
                   retention-days: 5
     push_image_dev:
         runs-on: ubuntu-latest
-        if: ${{ github.repository == 'liang-jinghoe/alf_scc.io' && github.event_name == 'push' }}
+        if: ${{ github.repository == 'liang-jinghoe/alf_tutorial.io' && github.event_name == 'push' }}
         needs: build
         name: Push dev image
         steps:
@@ -73,12 +73,12 @@ jobs:
                 with:
                     context: ./dockerize
                     tags: |
-                        ghcr.io/liang-jinghoe/alf_scc.io/dev-${{ env.GITHUB_REF_SLUG }}:latest
+                        ghcr.io/liang-jinghoe/alf_tutorial.io/dev-${{ env.GITHUB_REF_SLUG }}:latest
                     platforms: linux/amd64,linux/arm64
                     push: true
     push_image_prod:
         runs-on: ubuntu-latest
-        if: ${{ github.repository == 'liang-jinghoe/alf_scc.io' && github.event_name == 'push' }}
+        if: ${{ github.repository == 'liang-jinghoe/alf_tutorial.io' && github.event_name == 'push' }}
         needs: build
         name: Push PROD image
         steps:
@@ -107,13 +107,13 @@ jobs:
                 with:
                     context: ./dockerize
                     tags: |
-                        ghcr.io/liang-jinghoe/alf_scc.io:latest
-                        ghcr.io/liang-jinghoe/alf_scc.io:${{ github.ref_name }}
+                        ghcr.io/liang-jinghoe/alf_tutorial.io:latest
+                        ghcr.io/liang-jinghoe/alf_tutorial.io:${{ github.ref_name }}
                     platforms: linux/amd64,linux/arm64
                     push: true
     deploy:
         runs-on: ubuntu-latest
-        if: ${{ github.repository == 'liang-jinghoe/alf_scc.io' }}
+        if: ${{ github.repository == 'liang-jinghoe/alf_tutorial.io' }}
         needs: push_image_prod
         name: Deploy with Docker Compose
         steps:
@@ -169,7 +169,7 @@ jobs:
         -   name: Dump Postgres log file
             run: |
                 mkdir -p postgres-logs
-                docker logs alf_sccio-db-1 > postgres-logs/stdout.log 2>&1
+                docker logs alf_tutorialio-db-1 > postgres-logs/stdout.log 2>&1
         
         -   name: Upload Postgres logs as artifact
             uses: actions/upload-artifact@v4
