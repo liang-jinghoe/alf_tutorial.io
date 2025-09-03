@@ -142,11 +142,18 @@ jobs:
         -   name: List running containers
             run: docker ps -a
 
-        -   name: Save logs to file
-            run: docker logs alfsccio-app > app.log
-        
-        -   name: Upload logs artifact
+        -   name: Show Alf.io container logs (stdout)
+            run: docker logs --tail=100 alfsccio-app || echo "No stdout logs yet"
+
+        -   name: Copy Alf.io application logs from container
+            run: |
+                mkdir -p alfio-logs
+                docker exec alfsccio-app sh -c 'cat /var/lib/alf.io/logs/alfio.log 2>/dev/null || cat /opt/alf.io/logs/alfio.log 2>/dev/null || echo "No alfio.log file found" ' > alfio-logs/alfio.log
+                docker logs alfsccio-app > alfio-logs/stdout.log 2>&1
+
+        -   name: Upload Alf.io logs as artifact
             uses: actions/upload-artifact@v4
             with:
-                name: app-logs
-                path: app.log
+                name: alfio-logs
+                path: alfio-logs
+                retention-days: 7
