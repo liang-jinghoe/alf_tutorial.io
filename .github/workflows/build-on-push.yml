@@ -139,6 +139,9 @@ jobs:
                 docker compose -f docker-compose.yml pull
                 docker compose -f docker-compose.yml up -d
 
+        -   name: List running containers
+            run: docker ps -a
+
         -   name: Save logs to file
             run: docker logs alfsccio-app > app.log
         
