@@ -22,12 +22,13 @@ services:
 ###########################################################################
 # If you want to try out Alf.io, you can uncomment the following service: #
 ###########################################################################
-#    alfio:
-#        image: alfio/alf.io
-#        env_file:
-#            - .env
-#        depends_on:
-#            db:
-#                condition: service_healthy
-#        ports:
-#            - "8080:8080"
+   alfio:
+       image: ghcr.io/liang-jinghoe/alf_scc.io/prod:latest
+       container_name: alfsccio-app
+       env_file:
+           - .env
+       depends_on:
+           db:
+               condition: service_healthy
+       ports:
+           - "8080:8080"
