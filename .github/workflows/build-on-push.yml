@@ -146,19 +146,18 @@ jobs:
             run: |
                 for i in {1..30}; do
                     if docker exec alfsccio-app sh -c 'nc -z localhost 8080'; then
-                        echo "✅ Alf.io is up!"
+                        echo "Alf.io is up!"
                         exit 0
                     fi
-                    echo "⏳ Waiting for Alf.io to start..."
+                    echo "Waiting for Alf.io to start..."
                     sleep 5
                 done
-                echo "❌ Alf.io did not start in time" && exit 1
+                echo "Alf.io did not start in time" && exit 1
             
-        -   name: Collect Alf.io logs
+        -   name: Dump Alf.io logs
             run: |
                 mkdir -p alfio-logs
                 docker logs alfsccio-app > alfio-logs/stdout.log 2>&1
-                docker exec alfsccio-app sh -c 'cat /var/lib/alf.io/logs/alfio.log 2>/dev/null || cat /opt/alf.io/logs/alfio.log 2>/dev/null || echo "No alfio.log file found"' > alfio-logs/alfio.log
             
         -   name: Upload Alf.io logs
             uses: actions/upload-artifact@v4
@@ -166,14 +165,10 @@ jobs:
                 name: alfio-logs
                 path: alfio-logs
                 retention-days: 7
-
-        -   name: Show Postgres container logs (stdout)
-            run: docker logs --tail=100 alf_sccio-db-1 || echo "No Postgres stdout logs yet"
         
         -   name: Dump Postgres log file
             run: |
                 mkdir -p postgres-logs
-                docker exec alf_sccio-db-1 sh -c 'cat /var/lib/postgresql/data/log/postgresql.log 2>/dev/null || echo "No postgres.log file found"' > postgres-logs/postgres.log
                 docker logs alf_sccio-db-1 > postgres-logs/stdout.log 2>&1
         
         -   name: Upload Postgres logs as artifact
