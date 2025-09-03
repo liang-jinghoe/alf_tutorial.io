@@ -157,3 +157,19 @@ jobs:
                 name: alfio-logs
                 path: alfio-logs
                 retention-days: 7
+
+        -   name: Show Postgres container logs (stdout)
+            run: docker logs --tail=100 alf_sccio-db-1 || echo "No Postgres stdout logs yet"
+        
+        -   name: Dump Postgres log file
+            run: |
+                mkdir -p postgres-logs
+                docker exec alf_sccio-db-1 sh -c 'cat /var/lib/postgresql/data/log/postgresql.log 2>/dev/null || echo "No postgres.log file found"' > postgres-logs/postgres.log
+                docker logs alf_sccio-db-1 > postgres-logs/stdout.log 2>&1
+        
+        -   name: Upload Postgres logs as artifact
+            uses: actions/upload-artifact@v4
+            with:
+                name: postgres-logs
+                path: postgres-logs
+                retention-days: 7
