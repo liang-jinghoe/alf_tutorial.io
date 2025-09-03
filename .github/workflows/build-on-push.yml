@@ -140,4 +140,4 @@ jobs:
                 docker compose -f docker-compose.yml up -d
 
         -   name: Show container logs (app)
-            run: docker logs --tail=100 alfio-app
+            run: docker logs --tail=100 $(docker ps -aqf "name=app")
